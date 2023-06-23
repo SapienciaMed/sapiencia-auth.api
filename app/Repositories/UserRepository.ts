@@ -7,6 +7,7 @@ export interface IUserRepository {
   updateUser(user: IUser, id: number): Promise<IUser | null>;
   getUserByNumberDocument(document: string): Promise<IUser | null>;
   getUserAllowedActions(userId: number): Promise<Array<string>>;
+  changePasswordUser(password: string, id: number): Promise<IUser | null>;
 }
 
 export default class UserRepository implements IUserRepository {
@@ -68,5 +69,22 @@ export default class UserRepository implements IUserRepository {
       .where("PAC_FECHA_VIGENCIA", ">=", now);
 
     return actions.map((i) => i.$extras.action);
+  }
+
+  public async changePasswordUser(
+    password: string,
+    id: number
+  ): Promise<IUser | null> {
+    const toUpdate = await User.find(id);
+
+    if (!toUpdate) {
+      return null;
+    }
+
+    toUpdate.password = password;
+
+    await toUpdate.save();
+
+    return toUpdate.serialize() as IUser;
   }
 }

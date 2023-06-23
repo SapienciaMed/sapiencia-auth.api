@@ -71,6 +71,12 @@ Route.group(() => {
     "/validateTokenRecovery",
     "AuthController.validateTokenRecoveryPassword"
   );
+
+  Route.post(
+    "/changePasswordRecovery",
+    "UserController.changePassword"
+  ).middleware("recoveryPassword");
+
   Route.get(
     "/authorization/get-by-token/:token",
     "AuthController.getAuthorizationByToken"

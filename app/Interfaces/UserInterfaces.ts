@@ -16,3 +16,8 @@ export interface IUser {
 
   profiles?: IProfile[];
 }
+
+export interface IChangePassword {
+  password: string;
+  confirmPassword: string;
+}
