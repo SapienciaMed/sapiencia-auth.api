@@ -1,6 +1,7 @@
 import { IRole, IRoleFilters } from "App/Interfaces/RoleInterfaces";
 import { IPagingData } from "App/Utils/ApiResponses";
 import Role from "../Models/Role";
+import RoleAction from "App/Models/RoleAction";
 
 export interface IRoleRepository {
   createRole(role: IRole): Promise<IRole>;
@@ -37,11 +38,20 @@ export default class RoleRepository implements IRoleRepository {
   }
 
   async createRole(role: IRole): Promise<IRole> {
-    const toCreate = new Role();
+    const toCreateRole = new Role();
+    toCreateRole.fill({ ...role });
+    await toCreateRole.save();
 
-    toCreate.fill({ ...role });
-    await toCreate.save();
-    return toCreate.serialize() as IRole;
+    if(role.actions) {
+      for (const action of role.actions) {
+        const roleAction = new RoleAction();
+        roleAction.actionId = action.id;
+        roleAction.roleId = toCreateRole.id;
+        await roleAction.save();
+      }
+    }
+
+    return toCreateRole.serialize() as IRole;
   }
 
   async updateRole(role: IRole, id: number): Promise<IRole | null> {

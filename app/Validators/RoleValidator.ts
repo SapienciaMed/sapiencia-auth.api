@@ -1,5 +1,6 @@
 import { schema, CustomMessages } from "@ioc:Adonis/Core/Validator";
 import type { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
+import { IActions } from "App/Interfaces/OptionInterface";
 
 export default class RoleValidator {
   constructor(protected ctx: HttpContextContract) {}
@@ -23,12 +24,25 @@ export default class RoleValidator {
    *     ])
    *    ```
    */
+  public secondSchema = schema.create({
+
+  })
+
   public schema = schema.create({
     name: schema.string(),
     description: schema.string(),
     aplicationId: schema.number(),
+    userCreate: schema.string(),
+    actions: schema.array.optional().members(
+      schema.object().members({
+        id: schema.number(),
+        optionId: schema.number(),
+        name: schema.string(),
+        order: schema.number(),
+        indicator: schema.string(),
+        url: schema.string.optional()
+      }))
   });
-
   /**
    * Custom messages for validation failures. You can make use of dot notation `(.)`
    * for targeting nested fields and array expressions `(*)` for targeting all

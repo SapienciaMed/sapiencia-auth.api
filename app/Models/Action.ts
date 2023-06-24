@@ -30,7 +30,7 @@ export default class Action extends BaseModel {
   @hasMany(() => RoleAction, {
     localKey: "id",
     foreignKey: "actionId",
-    serializeAs: "rolesActions",
+    serializeAs: "actions",
   })
-  public rolesActions: HasMany<typeof RoleAction>;
+  public actions: HasMany<typeof RoleAction>;
 }

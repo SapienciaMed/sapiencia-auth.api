@@ -12,5 +12,5 @@ export interface IActions {
   name: string;
   order: number;
   indicator: string;
-  url: string | null;
+  url?: string;
 }

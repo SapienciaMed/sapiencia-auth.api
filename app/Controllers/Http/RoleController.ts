@@ -3,6 +3,7 @@ import RoleProvider from "@ioc:core.RoleProvider";
 import { EResponseCodes } from "App/Constants/ResponseCodesEnum";
 import { IRoleFilters } from "App/Interfaces/RoleInterfaces";
 import { ApiResponse } from "App/Utils/ApiResponses";
+import ActionValidator from "App/Validators/ActionValidator";
 import RoleValidator from "App/Validators/RoleValidator";
 
 export default class RoleController {
