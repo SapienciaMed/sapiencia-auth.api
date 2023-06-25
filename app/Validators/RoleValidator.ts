@@ -1,6 +1,5 @@
 import { schema, CustomMessages } from "@ioc:Adonis/Core/Validator";
 import type { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
-import { IActions } from "App/Interfaces/OptionInterface";
 
 export default class RoleValidator {
   constructor(protected ctx: HttpContextContract) {}

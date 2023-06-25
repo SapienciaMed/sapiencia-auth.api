@@ -27,6 +27,10 @@ export default class RoleRepository implements IRoleRepository {
       query.whereLike("name", `%${filters.name}%`);
     }
 
+    if (filters.application) {
+      query.whereLike("aplicationId", `%${filters.application}%`);
+    }
+
     const res = await query.paginate(filters.page, filters.perPage);
 
     const { data, meta } = res.serialize();
