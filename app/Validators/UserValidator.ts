@@ -31,6 +31,7 @@ export default class UserValidator {
     password: schema.string([rules.maxLength(100)]),
     userModify: schema.string([rules.maxLength(15)]),
     userCreate: schema.string([rules.maxLength(15)]),
+    email:schema.string([rules.maxLength(100)])
   });
 
   /**
