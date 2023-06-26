@@ -8,14 +8,18 @@ const userFake: IUser = {
   lastNames: "Paredes",
   typeDocument: "CC",
   numberDocument: "1234567890",
-  password: "",
-  userModify: "",
+  password: "1234567890",
+  userModify: "test",
   dateModify: DateTime.now(),
-  userCreate: "",
+  userCreate: "test",
   dateCreate: DateTime.now(),
+  email: "JoseParedes@example.com"
 };
 
 export class UserRepositoryFake implements IUserRepository {
+  changePasswordUser(password: string, id: number): Promise<IUser | null> {
+    throw new Error("Method not implemented.");
+  }
   getUserAllowedActions(_userId: number): Promise<string[]> {
     return new Promise((res) => {
       res([]);
