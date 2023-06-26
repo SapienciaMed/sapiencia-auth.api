@@ -48,10 +48,9 @@ export default class UserController {
 
   public async changePassword({ request, response }: HttpContextContract) {
     try {
+      
       const data = await request.validate(ChangePasswordValidator);
-
       const id = request["idUser"];
-
       return response.send(await UserProvider.changePassword(data, id));
     } catch (err) {
       return response.badRequest(

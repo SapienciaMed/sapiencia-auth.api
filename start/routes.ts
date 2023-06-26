@@ -45,8 +45,9 @@ Route.group(() => {
   Route.get("/get-by-id/:id", "UserController.getUserById");
   Route.post("/create", "UserController.createUser");
   Route.put("/update/:id", "UserController.updateUser");
-}).prefix("/api/v1/user");
-// .middleware("auth");
+  Route.post("/changePassword","UserController.changePassword");
+}).prefix("/api/v1/user")
+ .middleware("auth");
 
 // *************************************************************************
 // ************************* RUOTES Profile ***********************************
