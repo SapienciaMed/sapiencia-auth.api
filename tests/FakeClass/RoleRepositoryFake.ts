@@ -11,8 +11,10 @@ const roleFake: IRole = {
 
 export class RoleRepositoryFake implements IRoleRepository {
   getRoleById(_id: number): Promise<IRole | null> {
+    const list = [roleFake];
+
     return new Promise((res) => {
-      res(roleFake);
+      res(list.find((i) => i.id == _id) || null);
     });
   }
 
@@ -23,8 +25,14 @@ export class RoleRepositoryFake implements IRoleRepository {
   }
 
   deleteRole(_id: number): Promise<boolean> {
+    const list = [roleFake];
     return new Promise((res) => {
-      res(true);
+      const role = list.find((i) => i.id == _id);
+      if(!role) {
+        res(false);
+      } else {
+        res(true);
+      }
     });
   }
 
@@ -35,8 +43,10 @@ export class RoleRepositoryFake implements IRoleRepository {
   }
 
   updateRole(_role: IRole, _id: number): Promise<IRole | null> {
+    const list = [roleFake];
+
     return new Promise((res) => {
-      res(roleFake);
+      res(list.find((i) => i.id == _id) || null);
     });
   }
 }
