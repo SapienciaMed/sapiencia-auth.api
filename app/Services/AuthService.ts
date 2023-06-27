@@ -186,7 +186,7 @@ export default class AuthService implements IAuthService {
       return new ApiResponse(
         null,
         EResponseCodes.WARN,
-        "El documento de identidad no se encuentra registrada en el sistema"
+        "El documento de identidad no se encuentra registrado en el sistema"
       );
     }
 
