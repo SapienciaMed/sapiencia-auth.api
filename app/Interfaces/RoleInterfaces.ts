@@ -18,5 +18,5 @@ export interface IRoleFilters {
   page: number;
   perPage: number;
   name?: string;
-  application: number;
+  aplicationId: number;
 }

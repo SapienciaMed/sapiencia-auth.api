@@ -1,5 +1,4 @@
 import { EResponseCodes } from "App/Constants/ResponseCodesEnum";
-import { IActions } from "App/Interfaces/OptionInterface";
 import { IRole, IRoleFilters } from "App/Interfaces/RoleInterfaces";
 import { IRoleRepository } from "App/Repositories/RoleRepository";
 import { ApiResponse, IPagingData } from "App/Utils/ApiResponses";

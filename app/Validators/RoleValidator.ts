@@ -31,7 +31,8 @@ export default class RoleValidator {
     name: schema.string(),
     description: schema.string(),
     aplicationId: schema.number(),
-    userCreate: schema.string(),
+    userCreate: schema.string.optional(),
+    userModify: schema.string.optional(),
     actions: schema.array.optional().members(
       schema.object().members({
         id: schema.number(),

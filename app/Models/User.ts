@@ -5,7 +5,6 @@ import {
   HasMany,
   hasMany,
   beforeSave,
-  beforeUpdate,
 } from "@ioc:Adonis/Lucid/Orm";
 import Profile from "App/Models/Profile";
 import Database from "@ioc:Adonis/Lucid/Database";
