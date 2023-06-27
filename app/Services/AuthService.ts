@@ -186,7 +186,7 @@ export default class AuthService implements IAuthService {
       return new ApiResponse(
         null,
         EResponseCodes.WARN,
-        "El documento de identidad no se encuentra registrada en el sistema"
+        "El documento de identidad no se encuentra registrado en el sistema"
       );
     }
 
@@ -208,7 +208,7 @@ export default class AuthService implements IAuthService {
         .to(user.email)
         .subject("Recupera tu contraseña")
         .html(
-          `<h1>Has solicitado tu recuperación de contraseña, presiona el link para recuperarla recuerda que solo tienes 15 minutos para hacerlo <a href="http://localhost:9000/recovery-password?token=${token}" target="_blank">Recuperar contrasena</a></h1> `
+          `<h1>Has solicitado tu recuperación de contraseña, presiona el link para recuperarla recuerda que solo tienes 15 minutos para hacerlo <a href="http://localhost:9000/change-password-recovery?token=${token}" target="_blank">Recuperar contrasena</a></h1> `
         );
     });
 

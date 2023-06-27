@@ -38,9 +38,9 @@ export default class Role extends BaseModel {
   @hasMany(() => RoleAction, {
     localKey: "id",
     foreignKey: "roleId",
-    serializeAs: "rolesActions",
+    serializeAs: "actions",
   })
-  public rolesActions: HasMany<typeof RoleAction>;
+  public actions: HasMany<typeof RoleAction>;
 
   @hasMany(() => RoleProfile, {
     localKey: "id",

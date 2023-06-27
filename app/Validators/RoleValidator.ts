@@ -23,12 +23,26 @@ export default class RoleValidator {
    *     ])
    *    ```
    */
+  public secondSchema = schema.create({
+
+  })
+
   public schema = schema.create({
     name: schema.string(),
     description: schema.string(),
     aplicationId: schema.number(),
+    userCreate: schema.string.optional(),
+    userModify: schema.string.optional(),
+    actions: schema.array.optional().members(
+      schema.object().members({
+        id: schema.number(),
+        optionId: schema.number(),
+        name: schema.string(),
+        order: schema.number(),
+        indicator: schema.string(),
+        url: schema.string.optional()
+      }))
   });
-
   /**
    * Custom messages for validation failures. You can make use of dot notation `(.)`
    * for targeting nested fields and array expressions `(*)` for targeting all

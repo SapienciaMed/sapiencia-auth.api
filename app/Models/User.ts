@@ -44,7 +44,7 @@ export default class User extends BaseModel {
     autoUpdate: true,
     columnName: "USR_FECHA_MODIFICO",
     serializeAs: "dateModify",
-    prepare: () => Database.rawQuery("current_timestamp"),
+    prepare: () => DateTime.now().toSQL(),
   })
   public dateModify: DateTime;
 

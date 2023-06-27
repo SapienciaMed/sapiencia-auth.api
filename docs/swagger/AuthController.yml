@@ -1,0 +1,325 @@
+/api/v1/auth/signin:
+  post:
+    tags:
+      - Auth
+    summary: Permite iniciar sesión al usuario
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              numberDocument:
+                type: string
+                example: "784754"
+              password:
+                type: string
+                example: "1234567"
+    produces:
+      - application/json
+    responses:
+      200:
+        description: OK
+        content:
+          application/json:
+            examples:
+              Credenciales correctas:
+                value:
+                  {
+                    "data":
+                      {
+                        "authorization":
+                          {
+                            "allowedActions":
+                              [
+                                "ROLES_CONSULTAR",
+                                "ROLES_CREAR",
+                                "ROLES_EDITAR",
+                                "ROLES_ELIMINAR",
+                              ],
+                            "allowedApplications":
+                              [
+                                {
+                                  "aplicationId": 1,
+                                  "dateValidity": "2024-05-31T20:42:36.822Z",
+                                },
+                                {
+                                  "aplicationId": 2,
+                                  "dateValidity": "2024-05-31T20:42:36.822Z",
+                                },
+                                {
+                                  "aplicationId": 3,
+                                  "dateValidity": "2024-05-31T20:42:36.822Z",
+                                },
+                                {
+                                  "aplicationId": 4,
+                                  "dateValidity": "2024-05-31T20:42:36.822Z",
+                                },
+                              ],
+                            "encryptedAccess": "",
+                            "user":
+                              {
+                                "id": 1,
+                                "names": "Usuario",
+                                "lastNames": "Prueba",
+                                "typeDocument": "CC",
+                                "numberDocument": "797940",
+                                "userModify": "",
+                                "dateModify": "2023-06-26T10:36:36.862-05:00",
+                                "userCreate": "",
+                                "dateCreate": "2023-05-31T15:42:37.119-05:00",
+                                "email": "jmbetancur@i4digital.com",
+                              },
+                          },
+                        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjg3Nzk3NjY0LCJleHAiOjE2ODc4MDEyNjR9.oGttLKms03FOtJhGGo1x33eDNXRD2QDSTXHmJrw6c4A",
+                      },
+                    "operation": { "code": "OK" },
+                  }
+              Numero de documento incorrecto:
+                value:
+                  {
+                    "data": null,
+                    "operation":
+                      { "code": "WARN", "message": "Usuario no existe" },
+                  }
+              Contraseña incorrecta:
+                value:
+                  {
+                    "data": null,
+                    "operation":
+                      { "code": "WARN", "message": "Credenciales invalidas" },
+                  }
+
+/api/v1/auth/recoverypassword:
+  post:
+    tags:
+      - Auth
+    summary: Envia un correo electronico para recuperar la contraseña
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              numberDocument:
+                type: string
+                example: "784754"
+              email:
+                type: string
+                example: "jhondoe@gmail.com"
+    produces:
+      - application/json
+    responses:
+      200:
+        description: OK
+        content:
+          application/json:
+            examples:
+              Credenciales correctas:
+                value: { "data": true, "operation": { "code": "OK" } }
+              Numero de documento incorrecto:
+                value:
+                  {
+                    "data": null,
+                    "operation":
+                      {
+                        "code": "WARN",
+                        "message": "El documento de identidad no se encuentra registrada en el sistema",
+                      },
+                  }
+              email incorrecto:
+                value:
+                  {
+                    "data": null,
+                    "operation":
+                      {
+                        "code": "WARN",
+                        "message": "Su correo no coincide con el registrado en el sistema",
+                      },
+                  }
+
+/api/v1/auth/validateTokenRecovery:
+  post:
+    tags:
+      - Auth
+    summary: Valida el token de recuperar contraseña
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              token:
+                type: string
+                example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjg3NDU4NDk0LCJleHAiOjE2ODc0NTkzOTR9.1vnXFWssx54iHqlZSW6Rxz8DKqHu8HO2SSOvspIBpgQ"
+    produces:
+      - application/json
+    responses:
+      200:
+        description: OK
+        content:
+          application/json:
+            examples:
+              Token valido:
+                value: { "data": { "id": 1 }, "operation": { "code": "OK" } }
+      400:
+        description: Bad request
+        content:
+          application/json:
+            examples:
+              Token invalido:
+                value:
+                  {
+                    "data": null,
+                    "operation":
+                      {
+                        "code": "FAIL",
+                        "message": "TokenExpiredError: jwt expired",
+                      },
+                  }
+
+/api/v1/auth/changePasswordRecovery:
+  post:
+    tags:
+      - Auth
+    summary: Cambia la contraseña validando el token de recuperar contraseña
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              password:
+                type: string
+                example: "1234567"
+              confirmPassword:
+                type: string
+                example: "1234567"
+              token:
+                type: string
+                example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjg3NDU4NDk0LCJleHAiOjE2ODc0NTkzOTR9.1vnXFWssx54iHqlZSW6Rxz8DKqHu8HO2SSOvspIBpgQ"
+    produces:
+      - application/json
+    responses:
+      200:
+        description: OK
+        content:
+          application/json:
+            examples:
+              Token valido y contraseñas iguales:
+                value:
+                  {
+                    "data":
+                      {
+                        "id": 1,
+                        "names": "Usuario",
+                        "lastNames": "Prueba",
+                        "typeDocument": "CC",
+                        "numberDocument": "797940",
+                        "userModify": "",
+                        "dateModify": "2023-06-26T13:42:29.092-05:00",
+                        "userCreate": "",
+                        "dateCreate": "2023-05-31T15:42:37.119-05:00",
+                        "email": "jmbetancur@i4digital.com",
+                      },
+                    "operation": { "code": "OK" },
+                  }
+      403:
+        description: Forbidden
+        content:
+          application/json:
+            examples:
+              Token invalido:
+                value:
+                  {
+                    "data": null,
+                    "operation":
+                      {
+                        "code": "FAIL",
+                        "message": "TokenExpiredError: jwt expired",
+                      },
+                  }
+
+/api/v1/auth/authorization/get-by-token/{token}:
+  get:
+    parameters:
+      - in: path
+        name: token
+        required: true
+    tags:
+      - Auth
+    summary: Permite al usuario obtener la autentificación
+    produces:
+      - application/json
+    responses:
+      200:
+        description: OK
+        content:
+          application/json:
+            examples:
+              Token valido:
+                value:
+                  {
+                    "data":
+                      {
+                        "allowedActions":
+                          [
+                            "ROLES_CONSULTAR",
+                            "ROLES_CREAR",
+                            "ROLES_EDITAR",
+                            "ROLES_ELIMINAR",
+                          ],
+                        "allowedApplications":
+                          [
+                            {
+                              "aplicationId": 1,
+                              "dateValidity": "2024-05-31T20:42:36.822Z",
+                            },
+                            {
+                              "aplicationId": 2,
+                              "dateValidity": "2024-05-31T20:42:36.822Z",
+                            },
+                            {
+                              "aplicationId": 3,
+                              "dateValidity": "2024-05-31T20:42:36.822Z",
+                            },
+                            {
+                              "aplicationId": 4,
+                              "dateValidity": "2024-05-31T20:42:36.822Z",
+                            },
+                          ],
+                        "encryptedAccess": "",
+                        "user":
+                          {
+                            "id": 1,
+                            "names": "Usuario",
+                            "lastNames": "Prueba",
+                            "typeDocument": "CC",
+                            "numberDocument": "797940",
+                            "userModify": "",
+                            "dateModify": "2023-06-26T10:36:36.862-05:00",
+                            "userCreate": "",
+                            "dateCreate": "2023-05-31T15:42:37.119-05:00",
+                            "email": "jmbetancur@i4digital.com",
+                          },
+                      },
+                    "operation": { "code": "OK" },
+                  }
+      400:
+        description: Bad request
+        content:
+          application/json:
+            examples:
+              Token invalido:
+                value:
+                  {
+                    "data": null,
+                    "operation":
+                      {
+                        "code": "FAIL",
+                        "message": "SyntaxError: Unexpected token � in JSON at position 20",
+                      },
+                  }
+
+components:
+  schemas:
