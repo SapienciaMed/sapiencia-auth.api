@@ -139,38 +139,40 @@ export default class AuthService implements IAuthService {
   async getAuthorizationByToken(
     token: string
   ): Promise<ApiResponse<IAuthorization | null>> {
-    console.log(token);
+    try {
+      const { id } = jwt.verify(token, Env.get("APP_KEY")) as IDecodedToken;
 
-    const { id } = jwt.verify(token, Env.get("APP_KEY")) as IDecodedToken;
+      const user = await this.userRepository.getUserById(id);
 
-    const user = await this.userRepository.getUserById(id);
+      if (!user?.id) {
+        return new ApiResponse(null, EResponseCodes.WARN, "Usuario no existe");
+      }
 
-    if (!user?.id) {
-      return new ApiResponse(null, EResponseCodes.WARN, "Usuario no existe");
+      const allowedActions = await this.userRepository.getUserAllowedActions(
+        user.id
+      );
+
+      const allowedApplications =
+        user.profiles?.map((i) => {
+          return {
+            aplicationId: i.aplicationId,
+            dateValidity: i.dateValidity,
+          };
+        }) || [];
+
+      delete user.profiles;
+
+      const toSend: IAuthorization = {
+        allowedActions,
+        allowedApplications,
+        encryptedAccess: "",
+        user,
+      };
+
+      return new ApiResponse(toSend, EResponseCodes.OK);
+    } catch (err) {
+      return new ApiResponse(null, EResponseCodes.WARN, String(err));
     }
-
-    const allowedActions = await this.userRepository.getUserAllowedActions(
-      user.id
-    );
-
-    const allowedApplications =
-      user.profiles?.map((i) => {
-        return {
-          aplicationId: i.aplicationId,
-          dateValidity: i.dateValidity,
-        };
-      }) || [];
-
-    delete user.profiles;
-
-    const toSend: IAuthorization = {
-      allowedActions,
-      allowedApplications,
-      encryptedAccess: "",
-      user,
-    };
-
-    return new ApiResponse(toSend, EResponseCodes.OK);
   }
 
   async emailRecoveryPassword(

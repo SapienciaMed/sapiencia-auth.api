@@ -44,39 +44,39 @@ test.group("AuthService TEST for SignIn", () => {
   });
 });
 
-// test.group("AuthService TEST for getAuthorizationByToken", () => {
-//   test("the method getAuthorizationByToken must return a FAIL code, if token is invalid", async (assert) => {
-//     const result = await service.getAuthorizationByToken(
-//       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjg3ODaaaAxMDA0LCJleHAiOjE2ODc4MDQ2MDR9.glHVSCump23xfaFqWWdp_BCFwZHbhKHBNpU1oJGxifc"
-//     );
+test.group("AuthService TEST for getAuthorizationByToken", () => {
+  test("the method getAuthorizationByToken must return a WARN code, if token is invalid", async (assert) => {
+    const result = await service.getAuthorizationByToken(
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjg3ODaaaAxMDA0LCJleHAiOjE2ODc4MDQ2MDR9.glHVSCump23xfaFqWWdp_BCFwZHbhKHBNpU1oJGxifc"
+    );
 
-//     assert.isTrue(result.operation.code === EResponseCodes.FAIL);
-//   });
+    assert.isTrue(result.operation.code === EResponseCodes.WARN);
+  });
 
-//   test("the method getAuthorizationByToken must return a WARN code, if token is valid but user no exist", async (assert) => {
-//     const result = await service.getAuthorizationByToken(
-//       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjg3ODaaaAxMDA0LCJleHAiOjE2ODc4MDQ2MDR9.glHVSCump23xfaFqWWdp_BCFwZHbhKHBNpU1oJGxifc"
-//     );
+  test("the method getAuthorizationByToken must return a WARN code, if token is valid but user no exist", async (assert) => {
+    const result = await service.getAuthorizationByToken(
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjg3ODaaaAxMDA0LCJleHAiOjE2ODc4MDQ2MDR9.glHVSCump23xfaFqWWdp_BCFwZHbhKHBNpU1oJGxifc"
+    );
 
-//     assert.isTrue(result.operation.code === EResponseCodes.WARN);
-//   });
+    assert.isTrue(result.operation.code === EResponseCodes.WARN);
+  });
 
-//   test("the method getAuthorizationByToken must return a OK code, if token is valid and user exist", async (assert) => {
-//     const result = await service.getAuthorizationByToken(
-//       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjg3ODkxMjUwLCJleHAiOjE2ODc4OTQ4NTB9.0ANVb5LDwgIWMvRv2T2GRMSkmUryd7diXGl7xQJLWDc"
-//     );
+  test("the method getAuthorizationByToken must return a OK code, if token is valid and user exist", async (assert) => {
+    const result = await service.getAuthorizationByToken(
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjg3ODkxMjUwLCJleHAiOjE2ODc4OTQ4NTB9.0ANVb5LDwgIWMvRv2T2GRMSkmUryd7diXGl7xQJLWDc"
+    );
 
-//     assert.isTrue(result.operation.code === EResponseCodes.OK);
-//   });
+    assert.isTrue(result.operation.code === EResponseCodes.OK);
+  });
 
-//   test("the method getAuthorizationByToken must return a ApiResponse", async (assert) => {
-//     const result = await service.getAuthorizationByToken(
-//       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjg3ODaaaAxMDA0LCJleHAiOjE2ODc4MDQ2MDR9.glHVSCump23xfaFqWWdp_BCFwZHbhKHBNpU1oJGxifc"
-//     );
+  test("the method getAuthorizationByToken must return a ApiResponse", async (assert) => {
+    const result = await service.getAuthorizationByToken(
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjg3ODaaaAxMDA0LCJleHAiOjE2ODc4MDQ2MDR9.glHVSCump23xfaFqWWdp_BCFwZHbhKHBNpU1oJGxifc"
+    );
 
-//     assert.instanceOf(result, ApiResponse);
-//   });
-// });
+    assert.instanceOf(result, ApiResponse);
+  });
+});
 
 test.group("AuthService TEST for emailRecoveryPassword", () => {
   test("the method emailRecoveryPassword must return a WARN code, if number document is incorrect", async (assert) => {
