@@ -1,14 +1,10 @@
 import jwt from "jsonwebtoken";
-
 import Env from "@ioc:Adonis/Core/Env";
 import Hash from "@ioc:Adonis/Core/Hash";
 import Mail from "@ioc:Adonis/Addons/Mail";
-
 import IUserRepository from "App/Repositories/UserRepository";
-
 import { ApiResponse } from "App/Utils/ApiResponses";
 import { EResponseCodes } from "App/Constants/ResponseCodesEnum";
-
 import {
   IRequestSignIn,
   IResponseSignIn,
@@ -68,9 +64,7 @@ export default class AuthService implements IAuthService {
       );
     }
 
-    const allowedActions = await this.userRepository.getUserAllowedActions(
-      user.id
-    );
+    const permissions = await this.userRepository.getUserPermissions(user.id);
 
     const allowedApplications =
       user.profiles?.map((i) => {
@@ -89,7 +83,8 @@ export default class AuthService implements IAuthService {
 
     const auth: IResponseSignIn = {
       authorization: {
-        allowedActions,
+        allowedActions: permissions.actions,
+        allowedUrls: permissions.urls,
         allowedApplications,
         encryptedAccess: "",
         user,
@@ -139,19 +134,14 @@ export default class AuthService implements IAuthService {
   async getAuthorizationByToken(
     token: string
   ): Promise<ApiResponse<IAuthorization | null>> {
-    console.log(token);
-
     const { id } = jwt.verify(token, Env.get("APP_KEY")) as IDecodedToken;
-
     const user = await this.userRepository.getUserById(id);
 
     if (!user?.id) {
       return new ApiResponse(null, EResponseCodes.WARN, "Usuario no existe");
     }
 
-    const allowedActions = await this.userRepository.getUserAllowedActions(
-      user.id
-    );
+    const permissions = await this.userRepository.getUserPermissions(user.id);
 
     const allowedApplications =
       user.profiles?.map((i) => {
@@ -164,7 +154,8 @@ export default class AuthService implements IAuthService {
     delete user.profiles;
 
     const toSend: IAuthorization = {
-      allowedActions,
+      allowedActions: permissions.actions,
+      allowedUrls: permissions.urls,
       allowedApplications,
       encryptedAccess: "",
       user,

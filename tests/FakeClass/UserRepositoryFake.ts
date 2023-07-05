@@ -1,3 +1,4 @@
+import { IUserPermissions } from "App/Interfaces/AuthInterfaces";
 import { IUser } from "App/Interfaces/UserInterfaces";
 import { IUserRepository } from "App/Repositories/UserRepository";
 import { DateTime } from "luxon";
@@ -48,9 +49,12 @@ export class UserRepositoryFake implements IUserRepository {
     });
   }
 
-  getUserAllowedActions(_userId: number): Promise<string[]> {
+  getUserPermissions(_userId: number): Promise<IUserPermissions> {
     return new Promise((res) => {
-      res([]);
+      res({
+        actions: [],
+        urls: [],
+      });
     });
   }
 

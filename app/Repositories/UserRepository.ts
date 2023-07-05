@@ -1,3 +1,4 @@
+import { IUserPermissions } from "App/Interfaces/AuthInterfaces";
 import { IUser } from "App/Interfaces/UserInterfaces";
 import User from "App/Models/User";
 
@@ -6,7 +7,7 @@ export interface IUserRepository {
   createUser(user: IUser): Promise<IUser>;
   updateUser(user: IUser, id: number): Promise<IUser | null>;
   getUserByNumberDocument(document: string): Promise<IUser | null>;
-  getUserAllowedActions(userId: number): Promise<Array<string>>;
+  getUserPermissions(userId: number): Promise<IUserPermissions>;
   changePasswordUser(password: string, id: number): Promise<IUser | null>;
 }
 
@@ -56,19 +57,25 @@ export default class UserRepository implements IUserRepository {
     return newUser as IUser;
   }
 
-  public async getUserAllowedActions(userId: number): Promise<Array<string>> {
-    const now = new Date(Date.now()).toDateString();
-
-    const actions = await User.query()
-      .distinct("ACC_INDICADOR as action")
+  public async getUserPermissions(userId: number): Promise<IUserPermissions> {
+    const res = await User.query()
+      .select("ACC_INDICADOR as action")
+      .select("ACC_URL as url")
       .join("PAC_PERFILES_ACCESO", "PAC_CODUSR_USUARIO", "USR_CODIGO")
       .join("PRO_PERFILES_ROLES", "PRO_CODPAC_PERFIL", "PAC_CODIGO")
       .join("RAC_ROLES_ACCIONES", "RAC_CODROL_ROL", "PRO_CODROL_ROL")
       .join("ACC_ACCIONES", "ACC_CODIGO", "RAC_CODACC_ACCION")
       .where("USR_CODIGO", "=", userId)
-      .where("PAC_FECHA_VIGENCIA", ">=", now);
+      .where("PAC_FECHA_VIGENCIA", ">=", new Date(Date.now()).toDateString());
 
-    return actions.map((i) => i.$extras.action);
+    return {
+      actions: res
+        .filter((i) => String(i.$extras.action || "").length > 0)
+        .map((i) => i.$extras.action),
+      urls: res
+        .filter((i) => String(i.$extras.url || "").length > 0)
+        .map((i) => i.$extras.url),
+    };
   }
 
   public async changePasswordUser(

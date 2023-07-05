@@ -1,10 +1,7 @@
 import type { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
-
 import AuthProvider from "@ioc:core.AuthProvider";
-
 import { EResponseCodes } from "App/Constants/ResponseCodesEnum";
 import { ApiResponse } from "App/Utils/ApiResponses";
-
 import AuthValidator from "App/Validators/AuthValidator";
 import RecoveryPaswordValidator from "App/Validators/RecoveryPaswordValidator";
 import TokenValidator from "App/Validators/TokenValidator";
