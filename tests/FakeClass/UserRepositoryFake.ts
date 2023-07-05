@@ -53,7 +53,6 @@ export class UserRepositoryFake implements IUserRepository {
     return new Promise((res) => {
       res({
         actions: [],
-        urls: [],
       });
     });
   }

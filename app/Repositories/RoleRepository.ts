@@ -30,7 +30,6 @@ export default class RoleRepository implements IRoleRepository {
           name: action.action[0].name,
           order: action.action[0].order,
           indicator: action.action[0].indicator,
-          url: action.action[0].url
         } as IActions
       })
 

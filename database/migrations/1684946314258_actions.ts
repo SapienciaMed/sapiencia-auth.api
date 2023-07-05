@@ -27,9 +27,6 @@ export default class extends BaseSchema {
           "Codigo indicador de referencia al acceso (texto mayusculas separada por guion bajo)"
         )
         .notNullable();
-      table
-        .string("ACC_URL", 50)
-        .comment("url de la ruta para asegurar el acceso");
     });
   }
 

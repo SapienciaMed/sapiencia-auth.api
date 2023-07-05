@@ -60,7 +60,6 @@ export default class UserRepository implements IUserRepository {
   public async getUserPermissions(userId: number): Promise<IUserPermissions> {
     const res = await User.query()
       .select("ACC_INDICADOR as action")
-      .select("ACC_URL as url")
       .join("PAC_PERFILES_ACCESO", "PAC_CODUSR_USUARIO", "USR_CODIGO")
       .join("PRO_PERFILES_ROLES", "PRO_CODPAC_PERFIL", "PAC_CODIGO")
       .join("RAC_ROLES_ACCIONES", "RAC_CODROL_ROL", "PRO_CODROL_ROL")
@@ -71,10 +70,7 @@ export default class UserRepository implements IUserRepository {
     return {
       actions: res
         .filter((i) => String(i.$extras.action || "").length > 0)
-        .map((i) => i.$extras.action),
-      urls: res
-        .filter((i) => String(i.$extras.url || "").length > 0)
-        .map((i) => i.$extras.url),
+        .map((i) => i.$extras.action)
     };
   }
 

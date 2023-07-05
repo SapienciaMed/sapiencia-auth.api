@@ -24,9 +24,6 @@ export default class Action extends BaseModel {
   @column({ columnName: "ACC_INDICADOR", serializeAs: "indicator" })
   public indicator: string;
 
-  @column({ columnName: "ACC_URL", serializeAs: "url" })
-  public url: string | null;
-
   @hasMany(() => RoleAction, {
     localKey: "id",
     foreignKey: "actionId",

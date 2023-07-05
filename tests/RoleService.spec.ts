@@ -109,7 +109,7 @@ test.group("RoleService TEST for createRole", () =>{
         "name": "Consultar Roles",
         "order": 10,
         "indicator": "ROLES_CONSULTAR",
-        "url": "/core/roles"
+
       },
       {
         "id": 2,
@@ -117,7 +117,7 @@ test.group("RoleService TEST for createRole", () =>{
         "name": "Crear Rol",
         "order": 20,
         "indicator": "ROLES_CREAR",
-        "url": "/core/roles/crear"
+
       }
     ]
   };
@@ -164,7 +164,6 @@ test.group("RoleService TEST for updateRole", () =>{
         "name": "Consultar Roles",
         "order": 10,
         "indicator": "ROLES_CONSULTAR",
-        "url": "/core/roles"
       },
       {
         "id": 2,
@@ -172,7 +171,6 @@ test.group("RoleService TEST for updateRole", () =>{
         "name": "Crear Rol",
         "order": 20,
         "indicator": "ROLES_CREAR",
-        "url": "/core/roles/crear"
       }
     ]
   };

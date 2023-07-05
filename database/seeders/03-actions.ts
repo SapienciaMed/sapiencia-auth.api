@@ -10,7 +10,6 @@ export default class extends BaseSeeder {
         optionId: 1,
         name: "Consultar Roles",
         indicator: "ROLES_CONSULTAR",
-        url: "/core/roles",
         order: 10,
       },
       {
@@ -18,7 +17,6 @@ export default class extends BaseSeeder {
         optionId: 1,
         name: "Crear Rol",
         indicator: "ROLES_CREAR",
-        url: "/core/roles/crear",
         order: 20,
       },
       {
@@ -26,7 +24,6 @@ export default class extends BaseSeeder {
         optionId: 1,
         name: "Consultar Roles",
         indicator: "ROLES_EDITAR",
-        url: "/core/roles/editar",
         order: 30,
       },
       {
@@ -34,7 +31,6 @@ export default class extends BaseSeeder {
         optionId: 1,
         name: "Consultar Roles",
         indicator: "ROLES_ELIMINAR",
-        url: null,
         order: 40,
       },
     ]);

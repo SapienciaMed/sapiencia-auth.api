@@ -2,7 +2,6 @@ import { IUser } from "./UserInterfaces";
 
 export interface IUserPermissions {
   actions: string[];
-  urls: string[];
 }
 
 export interface IRequestSignIn {
@@ -31,7 +30,6 @@ export interface IDecodedToken {
 export interface IAuthorization {
   user: IUser;
   allowedActions: Array<string>;
-  allowedUrls: Array<string>;
   allowedApplications: Array<{
     aplicationId: number;
     dateValidity: Date;

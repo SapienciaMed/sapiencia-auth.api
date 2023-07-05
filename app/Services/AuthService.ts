@@ -84,7 +84,6 @@ export default class AuthService implements IAuthService {
     const auth: IResponseSignIn = {
       authorization: {
         allowedActions: permissions.actions,
-        allowedUrls: permissions.urls,
         allowedApplications,
         encryptedAccess: "",
         user,
@@ -155,7 +154,6 @@ export default class AuthService implements IAuthService {
 
     const toSend: IAuthorization = {
       allowedActions: permissions.actions,
-      allowedUrls: permissions.urls,
       allowedApplications,
       encryptedAccess: "",
       user,
