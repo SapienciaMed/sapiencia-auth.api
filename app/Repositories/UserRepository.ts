@@ -1,6 +1,6 @@
 import { IUserPermissions } from "App/Interfaces/AuthInterfaces";
 import { IUser } from "App/Interfaces/UserInterfaces";
-import { IUFilters } from "App/Interfaces/FilterInterfaces";
+import { IUserFilters } from "App/Interfaces/FilterInterfaces";
 import { IPagingData } from "App/Utils/ApiResponses";
 import User from "App/Models/User";
 
@@ -11,7 +11,7 @@ export interface IUserRepository {
   getUserByNumberDocument(document: string): Promise<IUser | null>;
   getUserPermissions(userId: number): Promise<IUserPermissions>;
   changePasswordUser(password: string, id: number): Promise<IUser | null>;
-  searchUser(elementsFilter: IUFilters): Promise<IPagingData<IUser | null>>
+  searchUser(filter: IUserFilters): Promise<IPagingData<IUser | null>>
 }
 
 export default class UserRepository implements IUserRepository {
@@ -31,9 +31,9 @@ export default class UserRepository implements IUserRepository {
     return toCreate.serialize() as IUser;
   }
 
-  async searchUser(filter: IUFilters): Promise<IPagingData<IUser | null>> {
+  async searchUser(filter: IUserFilters): Promise<IPagingData<IUser | null>> {
     try {
-      const { numberDocument, email, names, lastNames, page, perPage } = filter;
+      const { numberDocument, email, names, lastNames, page, perPage,  dateCreate } = filter;
 
       const query = User.query().preload("profiles");
       
@@ -51,6 +51,10 @@ export default class UserRepository implements IUserRepository {
 
       if (lastNames) {
         query.whereLike('lastNames',`%${lastNames}%`)
+      }
+
+      if (dateCreate) {
+        query.where('dateCreate', '=', dateCreate.toLocaleString());
       }
 
       const res = await query.paginate(page, perPage)

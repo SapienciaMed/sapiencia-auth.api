@@ -43,7 +43,7 @@ Route.group(() => {
 
 Route.group(() => {
   Route.get("/get-by-id/:id", "UserController.getUserById");
-  Route.get("/search", "UserController.searchUser");
+  Route.post("/search", "UserController.searchUser");
   Route.post("/create", "UserController.createUser");
   Route.put("/update/:id", "UserController.updateUser");
   Route.post("/changePassword","UserController.changePassword");
