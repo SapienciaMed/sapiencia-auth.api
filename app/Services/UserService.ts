@@ -2,7 +2,7 @@ import { EResponseCodes } from "App/Constants/ResponseCodesEnum";
 import { IChangePassword, IUser } from "App/Interfaces/UserInterfaces";
 import IUserRepository from "App/Repositories/UserRepository";
 import { ApiResponse } from "App/Utils/ApiResponses";
-import { IUFilters } from "App/Interfaces/FilterInterfaces";
+import { IUserFilters } from "App/Interfaces/FilterInterfaces";
 import { IPagingData } from "App/Utils/ApiResponses";
 
 export interface IUserService {
@@ -13,7 +13,7 @@ export interface IUserService {
     passwords: IChangePassword,
     id: number
   ): Promise<ApiResponse<IUser>>;
-  searchUser(elementsFilter: IUFilters): Promise<ApiResponse<IPagingData<IUser | null>>>;
+  searchUser(elementsFilter: IUserFilters): Promise<ApiResponse<IPagingData<IUser | null>>>;
 }
 
 export default class UserService implements IUserService {
@@ -28,7 +28,7 @@ export default class UserService implements IUserService {
     }
   }
 
-  async searchUser(filter: IUFilters): Promise<ApiResponse<IPagingData<IUser | null>>> {
+  async searchUser(filter: IUserFilters): Promise<ApiResponse<IPagingData<IUser | null>>> {
     const res = await this.userRepository.searchUser(filter);
     if (!res) {
       return new ApiResponse(res, EResponseCodes.WARN, "Recurso no encontrado");

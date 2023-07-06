@@ -2,6 +2,7 @@ import type { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
 import UserProvider from "@ioc:core.UserProvider";
 import { EResponseCodes } from "App/Constants/ResponseCodesEnum";
 import { ApiResponse } from "App/Utils/ApiResponses";
+import { IUserFilters } from "App/Interfaces/FilterInterfaces";
 
 import ChangePasswordValidator from "App/Validators/ChangePasswordValidator";
 import UserValidator from "App/Validators/UserValidator";
@@ -20,9 +21,9 @@ export default class UserController {
 
   public async searchUser({ request, response }: HttpContextContract) {
     try {
-      const { filter } = request.all();
+      const filter = request.body() as IUserFilters;
       if (filter) {
-          return response.send(await UserProvider.searchUser(JSON.parse(filter)));
+          return response.send(await UserProvider.searchUser(filter));
       } else {
         return response.badRequest(
           new ApiResponse(null, EResponseCodes.FAIL, String('Esta ruta requiere de parámetros'))
