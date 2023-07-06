@@ -1,5 +1,7 @@
 import { IUserPermissions } from "App/Interfaces/AuthInterfaces";
 import { IUser } from "App/Interfaces/UserInterfaces";
+import { IUFilters } from "App/Interfaces/FilterInterfaces";
+import { IPagingData } from "App/Utils/ApiResponses";
 import User from "App/Models/User";
 
 export interface IUserRepository {
@@ -9,6 +11,7 @@ export interface IUserRepository {
   getUserByNumberDocument(document: string): Promise<IUser | null>;
   getUserPermissions(userId: number): Promise<IUserPermissions>;
   changePasswordUser(password: string, id: number): Promise<IUser | null>;
+  searchUser(elementsFilter: IUFilters): Promise<IPagingData<IUser | null>>
 }
 
 export default class UserRepository implements IUserRepository {
@@ -26,6 +29,43 @@ export default class UserRepository implements IUserRepository {
     toCreate.fill({ ...user });
     await toCreate.save();
     return toCreate.serialize() as IUser;
+  }
+
+  async searchUser(filter: IUFilters): Promise<IPagingData<IUser | null>> {
+    try {
+      const { numberDocument, email, names, lastNames, page, perPage } = filter;
+
+      const query = User.query().preload("profiles");
+      
+      if (numberDocument) { 
+        query.whereLike("numberDocument", `%${numberDocument}%`);
+      }
+
+      if (email) { 
+        query.where(`email`,`${email}`);
+      }
+
+      if (names) { 
+        query.whereLike('names',`%${names}%`)
+      }
+
+      if (lastNames) {
+        query.whereLike('lastNames',`%${lastNames}%`)
+      }
+
+      const res = await query.paginate(page, perPage)
+      
+      const { data, meta } = res.serialize()
+
+      return {
+        array: data as IUser[],
+        meta,
+      }
+
+    } catch (error) {
+      throw new Error(error);
+    }
+
   }
 
   async updateUser(user: IUser, id: number): Promise<IUser | null> {
