@@ -1,6 +1,8 @@
 import { IUserPermissions } from "App/Interfaces/AuthInterfaces";
+import { IUFilters } from "App/Interfaces/FilterInterfaces";
 import { IUser } from "App/Interfaces/UserInterfaces";
 import { IUserRepository } from "App/Repositories/UserRepository";
+import { IPagingData } from "App/Utils/ApiResponses";
 import { DateTime } from "luxon";
 
 const userFake: IUser = {
@@ -19,6 +21,9 @@ const userFake: IUser = {
 };
 
 export class UserRepositoryFake implements IUserRepository {
+  searchUser(_filter: IUFilters): Promise<IPagingData<IUser | null>> {
+    throw new Error("Method not implemented.");
+  }
   changePasswordUser(password: string, id: number): Promise<IUser | null> {
     const list = [{ ...userFake }];
 
