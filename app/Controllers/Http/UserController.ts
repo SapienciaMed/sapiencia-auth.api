@@ -18,6 +18,23 @@ export default class UserController {
     }
   }
 
+  public async searchUser({ request, response }: HttpContextContract) {
+    try {
+      const { filter } = request.all();
+      if (filter) {
+          return response.send(await UserProvider.searchUser(JSON.parse(filter)));
+      } else {
+        return response.badRequest(
+          new ApiResponse(null, EResponseCodes.FAIL, String('Esta ruta requiere de parámetros'))
+         ); 
+      }
+    } catch (err) {
+      return response.badRequest(
+        new ApiResponse(null, EResponseCodes.FAIL, String(err))
+      );
+    }
+  }
+
   public async createUser({ request, response }: HttpContextContract) {
     try {
       const data = await request.validate(UserValidator);
