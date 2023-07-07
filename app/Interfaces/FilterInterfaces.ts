@@ -1,4 +1,4 @@
-import { DateTime } from "luxon";
+
 
 export interface IUserFilters {
   numberDocument?: number;
@@ -7,5 +7,5 @@ export interface IUserFilters {
   lastNames?: string;
   page: number;
   perPage: number;  
-  dateCreate?: DateTime;
+  aplicationId?: number;
 }

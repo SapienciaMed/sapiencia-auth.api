@@ -33,7 +33,7 @@ export default class UserRepository implements IUserRepository {
 
   async searchUser(filter: IUserFilters): Promise<IPagingData<IUser | null>> {
     try {
-      const { numberDocument, email, names, lastNames, page, perPage,  dateCreate } = filter;
+      const { numberDocument, email, names, lastNames, page, perPage,  aplicationId } = filter;
 
       const query = User.query().preload("profiles");
       
@@ -53,8 +53,10 @@ export default class UserRepository implements IUserRepository {
         query.whereLike('lastNames',`%${lastNames}%`)
       }
 
-      if (dateCreate) {
-        query.where('dateCreate', '=', dateCreate.toLocaleString());
+      if (aplicationId) {
+        query.whereHas("profiles", (subquery) =>
+          subquery.where("aplicationId", aplicationId)
+        );
       }
 
       const res = await query.paginate(page, perPage)
